@@ -17,6 +17,9 @@ jobs:
   gha-job-pt-lint:
     name: Lint
     runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: lint-${{ github.ref_name }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -36,6 +39,9 @@ jobs:
   gha-job-pt-test:
     name: Ruby ${{ matrix.ruby }}, ${{ matrix.gemfile }}.gemfile
     runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: test-${{ github.ref_name }}
     services:
       gha-service-pt-mysql:
         env:
