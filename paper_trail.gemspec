@@ -77,7 +77,7 @@ has been destroyed.
 
   s.add_development_dependency "rake", "~> 13.0"
   s.add_development_dependency "rspec-rails", "~> 6.0.3"
-  s.add_development_dependency "rubocop", "~> 1.22.2"
+  s.add_development_dependency "rubocop", ">= 1.0.0"
   s.add_development_dependency "rubocop-packaging", "~> 0.5.1"
   s.add_development_dependency "rubocop-performance", "~> 1.11.5"
   s.add_development_dependency "rubocop-rails", "~> 2.12.4"
