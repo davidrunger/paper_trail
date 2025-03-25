@@ -57,6 +57,8 @@ has been destroyed.
   # PT supports request_store versions for 3 years.
   s.add_dependency "request_store", "~> 1.4"
 
+  # rubocop:disable Gemspec/DevelopmentDependencies
+
   # The following gems have been extracted from the Ruby stdlib to gems, and we
   # must manually include them here in order for specs to run.
   s.add_development_dependency "benchmark", "~> 0.4.0"
@@ -99,4 +101,6 @@ has been destroyed.
   s.add_development_dependency "mysql2", "~> 0.5.3"
   s.add_development_dependency "pg", "~> 1.2"
   s.add_development_dependency "sqlite3", "~> 1.4"
+
+  # rubocop:enable Gemspec/DevelopmentDependencies
 end

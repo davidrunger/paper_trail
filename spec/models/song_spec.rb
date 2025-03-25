@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe(Song, :versioning, type: :model) do
   describe "#joins" do
-    it "works" do
+    it "creates a 'create' version" do
       described_class.create!
       result = described_class.
         joins(:versions).
