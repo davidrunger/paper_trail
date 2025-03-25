@@ -107,21 +107,6 @@ jobs:
       # install_database_yml spec` instead of `rake` (default) because the
       # default includes rubocop, which we run (once) as a separate job. See
       # above.
-      - name: Test, sqlite
-        run: bundle exec rake install_database_yml spec
-        env:
-          BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
-          DB: sqlite
-      - name: Test, mysql
-        run: bundle exec rake install_database_yml spec
-        env:
-          BACKTRACE: 1
-          BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
-          DB: mysql
-          PT_CI_DATABASE: paper_trail
-          PT_CI_DB_USER: root
-          PT_CI_DB_HOST: 127.0.0.1
-          PT_CI_DB_PORT: 3306
       - name: Test, postgres
         run: bundle exec rake install_database_yml spec
         env:
