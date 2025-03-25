@@ -9,17 +9,17 @@ RSpec.describe PaperTrail do
     end
   end
 
-  describe "#config", versioning: true do
+  describe "#config", :versioning do
     it "allows for config values to be set" do
-      expect(described_class.config.enabled).to eq(true)
+      expect(described_class.config.enabled).to be(true)
       described_class.config.enabled = false
-      expect(described_class.config.enabled).to eq(false)
+      expect(described_class.config.enabled).to be(false)
     end
 
     it "accepts blocks and yield the config instance" do
-      expect(described_class.config.enabled).to eq(true)
+      expect(described_class.config.enabled).to be(true)
       described_class.config { |c| c.enabled = false }
-      expect(described_class.config.enabled).to eq(false)
+      expect(described_class.config.enabled).to be(false)
     end
   end
 
@@ -34,8 +34,8 @@ RSpec.describe PaperTrail do
   describe ".gem_version" do
     it "returns a Gem::Version" do
       v = described_class.gem_version
-      expect(v).to be_a(::Gem::Version)
-      expect(v.to_s).to eq(::PaperTrail::VERSION::STRING)
+      expect(v).to be_a(Gem::Version)
+      expect(v.to_s).to eq(PaperTrail::VERSION::STRING)
     end
   end
 
@@ -72,7 +72,7 @@ RSpec.describe PaperTrail do
     end
   end
 
-  context "with `versioning: true`", versioning: true do
+  context "with `versioning: true`", :versioning do
     it "has versioning on by default" do
       expect(described_class).to be_enabled
     end

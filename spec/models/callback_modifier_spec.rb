@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe CallbackModifier, type: :model, versioning: true do
+RSpec.describe CallbackModifier, :versioning, type: :model do
   describe "paper_trail_on_destroy" do
     it "adds :destroy to paper_trail_options[:on]" do
       modifier = NoArgDestroyModifier.create!(some_content: FFaker::Lorem.sentence)

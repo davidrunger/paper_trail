@@ -11,6 +11,7 @@ SimpleCov.minimum_coverage(ENV["DB"] == "postgres" ? 96.71 : 92.4)
 
 require "byebug"
 require_relative "support/pt_arel_helpers"
+require_relative "support/custom_object_changes_adapter"
 
 unless ENV["BUNDLE_GEMFILE"].match?(/rails_\d\.\d\.gemfile/)
   warn(
@@ -60,7 +61,8 @@ end
 Bundler.setup
 
 # Then, the chosen components of Rails would be loaded. In our case, we only
-# test with AR and AC.
+# test with AR and AC. We require `logger` because `active_record` needs it.
+require "logger"
 require "active_record/railtie"
 require "action_controller/railtie"
 
@@ -78,7 +80,7 @@ require File.expand_path("dummy_app/config/environment", __dir__)
 
 # Now that AR has a connection pool, we can migrate the database.
 require_relative "support/paper_trail_spec_migrator"
-::PaperTrailSpecMigrator.new.migrate
+PaperTrailSpecMigrator.new.migrate
 
 # This final section resembles what might be dummy_app's spec_helper, if it
 # had one.

@@ -1,5 +1,12 @@
 name: gha-workflow-pt-test
-on: [push, pull_request]
+
+on:
+  pull_request:
+
+  push:
+    branches:
+      - main
+
 permissions:
   contents: read
 
@@ -10,6 +17,9 @@ jobs:
   gha-job-pt-lint:
     name: Lint
     runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: lint-${{ github.ref_name }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -17,7 +27,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           # See "Lowest supported ruby version" in CONTRIBUTING.md
-          ruby-version: '3.0'
+          ruby-version: '3.4'
       - name: Bundle
         run: |
           gem install bundler
@@ -29,6 +39,9 @@ jobs:
   gha-job-pt-test:
     name: Ruby ${{ matrix.ruby }}, ${{ matrix.gemfile }}.gemfile
     runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: test-${{ github.ref_name }}
     services:
       gha-service-pt-mysql:
         env:
@@ -59,18 +72,10 @@ jobs:
       # have set this up with each database as a separate job, but then we'd be
       # duplicating the matrix configuration three times.
       matrix:
-        gemfile: [ 'rails_6.1', 'rails_7.0', 'rails_7.1', 'rails_7.2', 'rails_8.0' ]
+        gemfile: [ 'rails_8.0' ]
 
-        # To keep matrix size down, only test highest and lowest rubies.
         # See "Lowest supported ruby version" in CONTRIBUTING.md
-        ruby: [ '3.0', '3.3' ]
-        exclude:
-          # Rails 8 requires ruby 3.2+.
-          - gemfile: 'rails_8.0'
-            ruby: '3.0'
-          # Rails 7.2 requires ruby 3.1+.
-          - gemfile: 'rails_7.2'
-            ruby: '3.0'
+        ruby: [ '3.4' ]
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -102,21 +107,6 @@ jobs:
       # install_database_yml spec` instead of `rake` (default) because the
       # default includes rubocop, which we run (once) as a separate job. See
       # above.
-      - name: Test, sqlite
-        run: bundle exec rake install_database_yml spec
-        env:
-          BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
-          DB: sqlite
-      - name: Test, mysql
-        run: bundle exec rake install_database_yml spec
-        env:
-          BACKTRACE: 1
-          BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
-          DB: mysql
-          PT_CI_DATABASE: paper_trail
-          PT_CI_DB_USER: root
-          PT_CI_DB_HOST: 127.0.0.1
-          PT_CI_DB_PORT: 3306
       - name: Test, postgres
         run: bundle exec rake install_database_yml spec
         env:

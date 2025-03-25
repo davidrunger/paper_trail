@@ -4,7 +4,7 @@ require "spec_helper"
 
 module PaperTrail
   module Serializers
-    ::RSpec.describe(YAML, versioning: true) do
+    ::RSpec.describe(YAML, :versioning) do
       let(:array) { ::Array.new(10) { ::FFaker::Lorem.word } }
       let(:hash) {
         {
@@ -15,7 +15,7 @@ module PaperTrail
           float: 4.2
         }
       }
-      let(:hash_with_indifferent_access) { HashWithIndifferentAccess.new(hash) }
+      let(:hash_with_indifferent_access) { ActiveSupport::HashWithIndifferentAccess.new(hash) }
 
       describe ".load" do
         it "deserializes YAML to Ruby" do
@@ -56,7 +56,7 @@ module PaperTrail
           matches = described_class.where_object_condition(
             ::PaperTrail::Version.arel_table[:object], :arg1, "Val 1"
           )
-          expect(matches.instance_of?(Arel::Nodes::Matches)).to(eq(true))
+          expect(matches.instance_of?(Arel::Nodes::Matches)).to(be(true))
           expect(arel_value(matches.right)).to eq("%\narg1: Val 1\n%")
         end
       end

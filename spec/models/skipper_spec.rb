@@ -2,10 +2,10 @@
 
 require "spec_helper"
 
-RSpec.describe Skipper, type: :model, versioning: true do
+RSpec.describe Skipper, :versioning, type: :model do
   it { is_expected.to be_versioned }
 
-  describe "#update!", versioning: true do
+  describe "#update!", :versioning do
     context "when updating a skipped attribute" do
       let(:t1) { Time.zone.local(2015, 7, 15, 20, 34, 0) }
       let(:t2) { Time.zone.local(2015, 7, 15, 20, 34, 30) }
@@ -70,7 +70,7 @@ RSpec.describe Skipper, type: :model, versioning: true do
         skipper = described_class.create!(another_timestamp: t1)
         skipper.update!(another_timestamp: t2, name: "Foobar")
         skipper = skipper.versions.last.reify
-        expect(skipper.another_timestamp).to be(nil)
+        expect(skipper.another_timestamp).to be_nil
       end
     end
 
