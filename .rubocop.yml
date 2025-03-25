@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-packaging
   - rubocop-performance
   - rubocop-rails
@@ -23,7 +23,7 @@ AllCops:
   NewCops: enable
 
   # See "Lowest supported ruby version" in CONTRIBUTING.md
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.4
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
@@ -133,11 +133,17 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Enabled: false
 
+RSpec/IndexedLet:
+  Enabled: false
+
 # In an ideal world, each example has a single expectation. In the real world,
 # sometimes setup is a pain and you don't want to duplicate setup in multiple
 # examples, or make the specs more confusing with many nested `context`s, and
 # the practical thing is to have multiple expectations.
 RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NoExpectationExample:
   Enabled: false
 
 # Please use semantic style, e.g. `do` when there's a side-effect, else `{}`.

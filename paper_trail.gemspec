@@ -20,7 +20,8 @@ has been destroyed.
   s.license = "MIT"
 
   s.metadata = {
-    "changelog_uri" => "https://github.com/paper-trail-gem/paper_trail/blob/master/CHANGELOG.md"
+    "changelog_uri" => "https://github.com/paper-trail-gem/paper_trail/blob/master/CHANGELOG.md",
+    "rubygems_mfa_required" => "true"
   }
 
   # > Files included in this gem. .. Only add files you can require to this
@@ -47,14 +48,16 @@ has been destroyed.
   # about 3 years, per https://www.ruby-lang.org/en/downloads/branches/
   #
   # See "Lowest supported ruby version" in CONTRIBUTING.md
-  s.required_ruby_version = ">= 3.0.0"
+  s.required_ruby_version = ">= 3.4.2"
 
   # We no longer specify a maximum activerecord version.
   # See discussion in paper_trail/compatibility.rb
-  s.add_dependency "activerecord", ::PaperTrail::Compatibility::ACTIVERECORD_GTE
+  s.add_dependency "activerecord", PaperTrail::Compatibility::ACTIVERECORD_GTE
 
   # PT supports request_store versions for 3 years.
   s.add_dependency "request_store", "~> 1.4"
+
+  # rubocop:disable Gemspec/DevelopmentDependencies
 
   # The following gems have been extracted from the Ruby stdlib to gems, and we
   # must manually include them here in order for specs to run.
@@ -73,16 +76,16 @@ has been destroyed.
   # For `spec/dummy_app`. Technically, we only need `actionpack` (as of 2020).
   # However, that might change in the future, and the advantages of specifying a
   # subset (e.g. actionpack only) are unclear.
-  s.add_development_dependency "rails", ::PaperTrail::Compatibility::ACTIVERECORD_GTE
+  s.add_development_dependency "rails", PaperTrail::Compatibility::ACTIVERECORD_GTE
 
   s.add_development_dependency "rake", "~> 13.0"
   s.add_development_dependency "rspec-rails", "~> 6.0.3"
-  s.add_development_dependency "rubocop", "~> 1.22.2"
-  s.add_development_dependency "rubocop-packaging", "~> 0.5.1"
-  s.add_development_dependency "rubocop-performance", "~> 1.11.5"
-  s.add_development_dependency "rubocop-rails", "~> 2.12.4"
-  s.add_development_dependency "rubocop-rake", "~> 0.6.0"
-  s.add_development_dependency "rubocop-rspec", "~> 2.5.0"
+  s.add_development_dependency "rubocop", ">= 1.0.0"
+  s.add_development_dependency "rubocop-packaging", ">= 0.5.1"
+  s.add_development_dependency "rubocop-performance", ">= 1.11.5"
+  s.add_development_dependency "rubocop-rails", ">= 2.12.4"
+  s.add_development_dependency "rubocop-rake", ">= 0.6.0"
+  s.add_development_dependency "rubocop-rspec", ">= 2.5.0"
   s.add_development_dependency "simplecov", "~> 0.21.2"
 
   # ## Database Adapters
@@ -98,4 +101,6 @@ has been destroyed.
   s.add_development_dependency "mysql2", "~> 0.5.3"
   s.add_development_dependency "pg", "~> 1.2"
   s.add_development_dependency "sqlite3", "~> 1.4"
+
+  # rubocop:enable Gemspec/DevelopmentDependencies
 end

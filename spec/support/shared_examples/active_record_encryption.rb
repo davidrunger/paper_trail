@@ -2,7 +2,7 @@
 
 RSpec.shared_examples "active_record_encryption" do |model|
   if PaperTrail.active_record_gte_7_0?
-    context "when ActiveRecord Encryption is enabled", versioning: true do
+    context "when ActiveRecord Encryption is enabled", :versioning do
       let(:record) { model.create(supplier: "ABC", name: "Tomato") }
 
       before do

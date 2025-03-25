@@ -10,7 +10,7 @@ module PaperTrail
   #
   # The paper_trail-association_tracking gem provides a related model,
   # `VersionAssociation`.
-  class Version < ::ActiveRecord::Base
+  class Version < ApplicationRecord
     include PaperTrail::VersionConcern
   end
 end

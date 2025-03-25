@@ -13,7 +13,6 @@
 .rvmrc
 .tags
 .tags_sorted_by_file
-Gemfile.lock
 NOTES
 coverage
 gemfiles/*.lock

@@ -3,7 +3,7 @@
 require "spec_helper"
 require "support/performance_helpers"
 
-RSpec.describe Widget, type: :model, versioning: true do
+RSpec.describe Widget, :versioning, type: :model do
   describe "#changeset" do
     it "has expected values" do
       widget = described_class.create(name: "Henry")
@@ -25,7 +25,7 @@ RSpec.describe Widget, type: :model, versioning: true do
 
       it "calls the adapter's load_changeset method" do
         widget = described_class.create(name: "Henry")
-        adapter = instance_spy("CustomObjectChangesAdapter")
+        adapter = instance_spy(CustomObjectChangesAdapter)
         PaperTrail.config.object_changes_adapter = adapter
         allow(adapter).to(
           receive(:load_changeset).with(widget.versions.last).and_return(a: "b", c: "d")
@@ -50,7 +50,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     context "when the serializer raises a Psych::DisallowedClass error" do
       it "prints a warning to stderr" do
         allow(PaperTrail.serializer).to(
-          receive(:load).and_raise(::Psych::Exception, "kaboom")
+          receive(:load).and_raise(Psych::Exception, "kaboom")
         )
         widget = described_class.create(name: "Henry")
         ver = widget.versions.last
@@ -67,13 +67,13 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
 
     it "be live" do
-      expect(described_class.new.paper_trail.live?).to(eq(true))
+      expect(described_class.new.paper_trail.live?).to(be(true))
     end
   end
 
   context "with a persisted record" do
     it "have one previous version" do
-      widget = described_class.create(name: "Henry", created_at: (Time.current - 1.day))
+      widget = described_class.create(name: "Henry", created_at: 1.day.ago)
       expect(widget.versions.length).to(eq(1))
     end
 
@@ -90,7 +90,7 @@ RSpec.describe Widget, type: :model, versioning: true do
 
     it "be live" do
       widget = described_class.create(name: "Henry")
-      expect(widget.paper_trail.live?).to(eq(true))
+      expect(widget.paper_trail.live?).to(be(true))
     end
 
     it "use the widget `updated_at` as the version's `created_at`" do
@@ -657,7 +657,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     it "not have a version created on destroy" do
       widget = described_class.new
       widget.destroy
-      expect(widget.versions.empty?).to(eq(true))
+      expect(widget.versions.empty?).to(be(true))
     end
   end
 
@@ -677,8 +677,8 @@ RSpec.describe Widget, type: :model, versioning: true do
       # Json fields for `object` & `object_changes` attributes is most efficient way
       # to do the things - this way we will save even more RAM, as well as will skip
       # the whole YAML serialization
-      allow(PaperTrail::Version).to receive(:object_changes_col_is_json?).and_return(true)
-      allow(PaperTrail::Version).to receive(:object_col_is_json?).and_return(true)
+      allow(PaperTrail::Version).to receive_messages(object_changes_col_is_json?: true,
+        object_col_is_json?: true)
 
       # Force the loading of all lazy things like class definitions,
       # in order to get the pure benchmark
@@ -741,7 +741,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     it { is_expected.to be_versioned }
   end
 
-  describe "`have_a_version_with` matcher", versioning: true do
+  describe "`have_a_version_with` matcher", :versioning do
     let(:widget) { described_class.create! name: "Bob", an_integer: 1 }
 
     before do
@@ -758,7 +758,7 @@ RSpec.describe Widget, type: :model, versioning: true do
   end
 
   describe "versioning option" do
-    context "when enabled", versioning: true do
+    context "when enabled", :versioning do
       it "enables versioning" do
         widget = described_class.create! name: "Bob", an_integer: 1
         expect(widget.versions.size).to eq(1)
@@ -773,7 +773,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
   end
 
-  describe "Callbacks", versioning: true do
+  describe "Callbacks", :versioning do
     let(:widget) { described_class.create! name: "Bob", an_integer: 1 }
 
     describe "before_save" do
@@ -785,7 +785,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
 
     describe "after_create" do
-      let(:widget) { described_class.create!(name: "Foobar", created_at: Time.current - 1.week) }
+      let(:widget) { described_class.create!(name: "Foobar", created_at: 1.week.ago) }
 
       it "corresponding version uses the widget's `updated_at`" do
         expect(widget.versions.last.created_at.to_i).to eq(widget.updated_at.to_i)
@@ -794,7 +794,7 @@ RSpec.describe Widget, type: :model, versioning: true do
 
     describe "after_update" do
       before do
-        widget.update!(name: "Foobar", updated_at: Time.current + 1.week)
+        widget.update!(name: "Foobar", updated_at: 1.week.from_now)
       end
 
       it "clears the `versions_association_name` virtual attribute" do
@@ -848,7 +848,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
   end
 
-  describe "Association", versioning: true do
+  describe "Association", :versioning do
     let(:widget) { described_class.create! name: "Bob", an_integer: 1 }
 
     describe "sort order" do
@@ -860,7 +860,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
   end
 
-  describe "#create", versioning: true do
+  describe "#create", :versioning do
     let(:widget) { described_class.create! name: "Bob", an_integer: 1 }
 
     it "creates a version record" do
@@ -869,7 +869,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
   end
 
-  describe "#destroy", versioning: true do
+  describe "#destroy", :versioning do
     let(:widget) { described_class.create! name: "Bob", an_integer: 1 }
 
     it "creates a version record" do
@@ -899,7 +899,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
   end
 
-  describe "#paper_trail.originator", versioning: true do
+  describe "#paper_trail.originator", :versioning do
     let(:widget) { described_class.create! name: "Bob", an_integer: 1 }
 
     describe "return value" do
@@ -913,7 +913,7 @@ RSpec.describe Widget, type: :model, versioning: true do
       it "returns the originator for the model at a given state" do
         expect(widget.paper_trail).to be_live
         expect(widget.paper_trail.originator).to eq(orig_name)
-        ::PaperTrail.request(whodunnit: new_name) {
+        PaperTrail.request(whodunnit: new_name) {
           widget.update(name: "Elizabeth")
         }
         expect(widget.paper_trail.originator).to eq(new_name)
@@ -939,7 +939,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
   end
 
-  describe "#version_at", versioning: true do
+  describe "#version_at", :versioning do
     let(:widget) { described_class.create! name: "Bob", an_integer: 1 }
 
     context "when Timestamp argument is AFTER object has been destroyed" do
@@ -951,7 +951,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
   end
 
-  describe "touch", versioning: true do
+  describe "touch", :versioning do
     let(:widget) { described_class.create! name: "Bob", an_integer: 1 }
 
     it "creates a version" do
@@ -969,7 +969,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
   end
 
-  describe ".paper_trail.update_columns", versioning: true do
+  describe ".paper_trail.update_columns", :versioning do
     it "creates a version record" do
       widget = described_class.create
       expect(widget.versions.count).to eq(1)
@@ -987,7 +987,7 @@ RSpec.describe Widget, type: :model, versioning: true do
     end
   end
 
-  describe "#update", versioning: true do
+  describe "#update", :versioning do
     let(:widget) { described_class.create! name: "Bob", an_integer: 1 }
 
     it "creates a version record" do

@@ -2,11 +2,11 @@
 
 require "spec_helper"
 
-RSpec.describe Article, type: :model, versioning: true do
+RSpec.describe Article, :versioning, type: :model do
   describe ".create" do
     it "also creates a version record" do
       expect { described_class.create }.to(
-        change { PaperTrail::Version.count }.by(+1)
+        change(PaperTrail::Version, :count).by(+1)
       )
     end
   end
