@@ -11,6 +11,7 @@ SimpleCov.minimum_coverage(ENV["DB"] == "postgres" ? 96.71 : 92.4)
 
 require "byebug"
 require_relative "support/pt_arel_helpers"
+require_relative "support/custom_object_changes_adapter"
 
 unless ENV["BUNDLE_GEMFILE"].match?(/rails_\d\.\d\.gemfile/)
   warn(
