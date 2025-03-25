@@ -7,7 +7,7 @@ RSpec.describe Gadget, type: :model do
 
   it { is_expected.to be_versioned }
 
-  describe "updates", versioning: true do
+  describe "updates", :versioning do
     it "generates a version for updates" do
       expect { gadget.update_attribute(:name, "Hammer") }.to(change { gadget.versions.size }.by(1))
     end
@@ -35,7 +35,7 @@ RSpec.describe Gadget, type: :model do
         gadget.update_attribute(:updated_at, Time.current + 1)
       }.to(change { gadget.versions.size }.by(1))
       expect(
-        if ::YAML.respond_to?(:unsafe_load)
+        if YAML.respond_to?(:unsafe_load)
           YAML.unsafe_load(gadget.versions.last.object_changes).keys
         else
           YAML.load(gadget.versions.last.object_changes).keys

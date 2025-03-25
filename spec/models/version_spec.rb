@@ -6,7 +6,7 @@ require "support/shared_examples/active_record_encryption"
 
 module PaperTrail
   ::RSpec.describe Version, type: :model do
-    describe "#object_changes", versioning: true do
+    describe "#object_changes", :versioning do
       let(:widget) { Widget.create!(name: "Dashboard") }
       let(:value) { widget.versions.last.object_changes }
 
@@ -24,7 +24,7 @@ module PaperTrail
         end
 
         it "creates a version with custom changes" do
-          adapter = instance_spy("CustomObjectChangesAdapter")
+          adapter = instance_spy(CustomObjectChangesAdapter)
           PaperTrail.config.object_changes_adapter = adapter
           custom_changes_value = [["name", nil, "Dashboard"]]
           allow(adapter).to(
@@ -66,7 +66,7 @@ module PaperTrail
         end
       end
 
-      context "with previous version", versioning: true do
+      context "with previous version", :versioning do
         it "returns name of whodunnit" do
           name = FFaker::Name.name
           widget = Widget.create!(name: FFaker::Name.name)
@@ -84,7 +84,7 @@ module PaperTrail
         end
       end
 
-      context "with previous version", versioning: true do
+      context "with previous version", :versioning do
         it "returns a PaperTrail::Version" do
           name = FFaker::Name.name
           widget = Widget.create!(name: FFaker::Name.name)
@@ -110,12 +110,12 @@ module PaperTrail
       end
     end
 
-    context "with text columns", versioning: true do
+    context "with text columns", :versioning do
       include_examples "queries", :text, ::Widget, :an_integer
     end
 
     if ENV["DB"] == "postgres"
-      context "with json columns", versioning: true do
+      context "with json columns", :versioning do
         include_examples(
           "queries",
           :json,
@@ -126,7 +126,7 @@ module PaperTrail
         include_examples("active_record_encryption", ::Fruit)
       end
 
-      context "with jsonb columns", versioning: true do
+      context "with jsonb columns", :versioning do
         include_examples(
           "queries",
           :jsonb,

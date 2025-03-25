@@ -20,7 +20,8 @@ has been destroyed.
   s.license = "MIT"
 
   s.metadata = {
-    "changelog_uri" => "https://github.com/paper-trail-gem/paper_trail/blob/master/CHANGELOG.md"
+    "changelog_uri" => "https://github.com/paper-trail-gem/paper_trail/blob/master/CHANGELOG.md",
+    "rubygems_mfa_required" => "true"
   }
 
   # > Files included in this gem. .. Only add files you can require to this
@@ -51,7 +52,7 @@ has been destroyed.
 
   # We no longer specify a maximum activerecord version.
   # See discussion in paper_trail/compatibility.rb
-  s.add_dependency "activerecord", ::PaperTrail::Compatibility::ACTIVERECORD_GTE
+  s.add_dependency "activerecord", PaperTrail::Compatibility::ACTIVERECORD_GTE
 
   # PT supports request_store versions for 3 years.
   s.add_dependency "request_store", "~> 1.4"
@@ -73,7 +74,7 @@ has been destroyed.
   # For `spec/dummy_app`. Technically, we only need `actionpack` (as of 2020).
   # However, that might change in the future, and the advantages of specifying a
   # subset (e.g. actionpack only) are unclear.
-  s.add_development_dependency "rails", ::PaperTrail::Compatibility::ACTIVERECORD_GTE
+  s.add_development_dependency "rails", PaperTrail::Compatibility::ACTIVERECORD_GTE
 
   s.add_development_dependency "rake", "~> 13.0"
   s.add_development_dependency "rspec-rails", "~> 6.0.3"

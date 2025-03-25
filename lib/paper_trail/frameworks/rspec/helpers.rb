@@ -18,9 +18,9 @@ module PaperTrail
       # Extended by the RSpec configuration in `frameworks/rspec.rb`
       module ClassMethods
         # enable versioning for specific blocks (at class-level)
-        def with_versioning(&block)
+        def with_versioning(&)
           context "with versioning", versioning: true do
-            class_exec(&block)
+            class_exec(&)
           end
         end
       end

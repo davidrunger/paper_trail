@@ -3,7 +3,7 @@
 require "spec_helper"
 
 module PaperTrail
-  ::RSpec.describe Cleaner, versioning: true do
+  ::RSpec.describe Cleaner, :versioning do
     describe "clean_versions!" do
       let(:animal) { ::Animal.new }
       let(:dog) { ::Dog.new }
@@ -41,7 +41,7 @@ module PaperTrail
       context "when keeping 2" do
         it "keeps two records, instead of the usual one" do
           PaperTrail.clean_versions!(keeping: 2)
-          expect(PaperTrail::Version.all.count).to(eq(6))
+          expect(PaperTrail::Version.count).to(eq(6))
           animals.each { |animal| expect(animal.versions.size).to(eq(2)) }
         end
       end
@@ -62,7 +62,7 @@ module PaperTrail
           expect(animal.versions.first.created_at.to_date).to(eq(date))
           # Why use `equal?` here instead of something less strict?
           # Doesn't `to_date` always produce a new date object?
-          expect(date.equal?(animal.versions.last.created_at.to_date)).to eq(false)
+          expect(date.equal?(animal.versions.last.created_at.to_date)).to be(false)
         end
       end
 

@@ -5,12 +5,12 @@ require "spec_helper"
 module PaperTrail
   module Events
     ::RSpec.describe Base do
-      describe "#changed_notably?", versioning: true do
+      describe "#changed_notably?", :versioning do
         context "with a new record" do
           it "returns true" do
             g = Gadget.new(created_at: Time.current)
             event = described_class.new(g, false)
-            expect(event.changed_notably?).to eq(true)
+            expect(event.changed_notably?).to be(true)
           end
         end
 
@@ -19,14 +19,14 @@ module PaperTrail
             gadget = Gadget.create!(created_at: Time.current)
             gadget.name = "Wrench"
             event = described_class.new(gadget, false)
-            expect(event.changed_notably?).to eq(true)
+            expect(event.changed_notably?).to be(true)
           end
 
           it "does not acknowledge ignored attr (brand)" do
             gadget = Gadget.create!(created_at: Time.current)
             gadget.brand = "Acme"
             event = described_class.new(gadget, false)
-            expect(event.changed_notably?).to eq(false)
+            expect(event.changed_notably?).to be(false)
           end
         end
 
@@ -36,7 +36,7 @@ module PaperTrail
             gadget.name = "Wrench"
             gadget.updated_at = Time.current
             event = described_class.new(gadget, false)
-            expect(event.changed_notably?).to eq(true)
+            expect(event.changed_notably?).to be(true)
           end
 
           it "does not acknowledge ignored attrs and timestamps only" do
@@ -44,12 +44,12 @@ module PaperTrail
             gadget.brand = "Acme"
             gadget.updated_at = Time.current
             event = described_class.new(gadget, false)
-            expect(event.changed_notably?).to eq(false)
+            expect(event.changed_notably?).to be(false)
           end
         end
       end
 
-      describe "#nonskipped_attributes_before_change", versioning: true do
+      describe "#nonskipped_attributes_before_change", :versioning do
         it "returns a hash lacking the skipped attribute" do
           # Skipper has_paper_trail(..., skip: [:another_timestamp])
           skipper = Skipper.create!(another_timestamp: Time.current)
