@@ -129,6 +129,7 @@ GEM
     minitest (5.25.5)
     mutex_m (0.3.0)
     mysql2 (0.5.6)
+    n_plus_one_control (0.7.2)
     net-imap (0.5.6)
       date
       net-protocol
@@ -178,6 +179,10 @@ GEM
       activesupport (= 8.0.2)
       bundler (>= 1.15.0)
       railties (= 8.0.2)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
@@ -293,9 +298,11 @@ DEPENDENCIES
   memory_profiler (~> 1.0.0)
   mutex_m (~> 0.3.0)
   mysql2 (~> 0.5.3)
+  n_plus_one_control (~> 0.7.2)
   paper_trail!
   pg (~> 1.2)
   rails (>= 6.1)
+  rails-controller-testing (~> 1.0.5)
   rake (~> 13.0)
   rspec-rails (~> 6.0.3)
   rubocop (>= 1.0.0)
@@ -353,6 +360,7 @@ CHECKSUMS
   minitest (5.25.5) sha256=391b6c6cb43a4802bfb7c93af1ebe2ac66a210293f4a3fb7db36f2fc7dc2c756
   mutex_m (0.3.0) sha256=cfcb04ac16b69c4813777022fdceda24e9f798e48092a2b817eb4c0a782b0751
   mysql2 (0.5.6) sha256=70f447d45d6b3cc16b00f7dd30366f708a81b4093a35d026ff7135d778d8da33
+  n_plus_one_control (0.7.2)
   net-imap (0.5.6) sha256=1ede8048ee688a14206060bf37a716d18cb6ea00855f6c9b15daee97ee51fbe5
   net-pop (0.1.2) sha256=848b4e982013c15b2f0382792268763b748cce91c9e91e36b0f27ed26420dff3
   net-protocol (0.2.2) sha256=aa73e0cba6a125369de9837b8d8ef82a61849360eba0521900e2c3713aa162a8
@@ -373,6 +381,7 @@ CHECKSUMS
   rack-test (2.2.0) sha256=005a36692c306ac0b4a9350355ee080fd09ddef1148a5f8b2ac636c720f5c463
   rackup (2.2.1) sha256=f737191fd5c5b348b7f0a4412a3b86383f88c43e13b8217b63d4c8d90b9e798d
   rails (8.0.2) sha256=fdfaa5a83ec0388e02864e88d515959caedc88053b5f701c4deb1652d8f164c6
+  rails-controller-testing (1.0.5)
   rails-dom-testing (2.2.0) sha256=e515712e48df1f687a1d7c380fd7b07b8558faa26464474da64183a7426fa93b
   rails-html-sanitizer (1.6.2) sha256=35fce2ca8242da8775c83b6ba9c1bcaad6751d9eb73c1abaa8403475ab89a560
   railties (8.0.2) sha256=0d7c3f40c49ba74980f1bac1d4bb153a9331c5ee8a9631d89c7bf79db82e5cf9
