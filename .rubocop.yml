@@ -115,6 +115,15 @@ Performance/CollectionLiteralInLoop:
   Exclude:
     - spec/**/*
 
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
 # This cop only applies to app dev, not gem dev.
 Rails/RakeEnvironment:
   Enabled: false
