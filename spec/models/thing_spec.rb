@@ -8,7 +8,7 @@ RSpec.describe Thing, type: :model do
 
     it "applies the scope option" do
       expect(described_class.reflect_on_association(:versions).scope).to be_a Proc
-      expect(thing.versions.to_sql).to end_with "ORDER BY id desc"
+      expect(thing.versions.to_sql).to end_with 'ORDER BY "versions"."id" DESC'
     end
 
     it "applies the extend option" do
