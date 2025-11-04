@@ -79,6 +79,7 @@ has been destroyed.
   # subset (e.g. actionpack only) are unclear.
   s.add_development_dependency "rails", PaperTrail::Compatibility::ACTIVERECORD_GTE
 
+  s.add_development_dependency "rails-controller-testing", "~> 1.0.5"
   s.add_development_dependency "rake", "~> 13.0"
   s.add_development_dependency "rspec-rails", "~> 6.0.3"
   s.add_development_dependency "rubocop", ">= 1.0.0"

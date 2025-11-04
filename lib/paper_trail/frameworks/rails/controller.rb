@@ -66,7 +66,7 @@ module PaperTrail
       # ```
       #
       # @api public
-      def paper_trail_enabled_for_controller
+      def paper_trail_enabled_for_controller # rubocop:disable Naming/PredicateMethod
         ::PaperTrail.enabled?
       end
 

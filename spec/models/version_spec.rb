@@ -111,30 +111,30 @@ module PaperTrail
     end
 
     context "with text columns", :versioning do
-      include_examples "queries", :text, ::Widget, :an_integer
+      it_behaves_like "queries", :text, ::Widget, :an_integer
     end
 
     if ENV["DB"] == "postgres"
       context "with json columns", :versioning do
-        include_examples(
+        it_behaves_like(
           "queries",
           :json,
           ::Fruit, # uses JsonVersion
           :mass
         )
 
-        include_examples("active_record_encryption", ::Fruit)
+        it_behaves_like("active_record_encryption", ::Fruit)
       end
 
       context "with jsonb columns", :versioning do
-        include_examples(
+        it_behaves_like(
           "queries",
           :jsonb,
           ::Vegetable, # uses JsonbVersion
           :mass
         )
 
-        include_examples("active_record_encryption", ::Vegetable)
+        it_behaves_like("active_record_encryption", ::Vegetable)
       end
     end
   end

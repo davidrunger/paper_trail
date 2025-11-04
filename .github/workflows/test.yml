@@ -72,7 +72,7 @@ jobs:
       # have set this up with each database as a separate job, but then we'd be
       # duplicating the matrix configuration three times.
       matrix:
-        gemfile: [ 'rails_8.0' ]
+        gemfile: [ 'rails_8.1' ]
 
         # See "Lowest supported ruby version" in CONTRIBUTING.md
         ruby: [ '3.4' ]
